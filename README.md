@@ -1,6 +1,6 @@
 ## Clown widget plugin for Omarchy
 
-Heavily inspider by the [Clown GNOME extention](https://extensions.gnome.org/extension/6544/clown/) by markocic.
+Heavily inspired by the [Clown GNOME extention](https://extensions.gnome.org/extension/6544/clown/) by markocic.
 
 A dead-simple, vibecoded plugin that displays a clown emoji and plays music when clicked.
 
