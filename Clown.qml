@@ -28,7 +28,7 @@ BarWidget {
             // Bind to the system's current default output device
             device: mediaDevices.defaultAudioOutput
             // This controls only this specific widget's player volume
-            volume: root.volumeLevel 
+            volume: root.volumeLevel
         }
     }
 
@@ -38,7 +38,11 @@ BarWidget {
         bar: root.bar
         text: "🤡"
         active: root.isPlaying
-        tooltipText: root.isPlaying ? "Stop music (Vol: " + Math.round(root.volumeLevel * 100) + "%)" : "Play music"
+        
+        tooltipText: {
+            let volPercent = Math.round(root.volumeLevel * 100)
+            return root.isPlaying ? "Stop music (Vol: " + volPercent + "%)" : "Play music (Vol: " + volPercent + "%)"
+        }
         
         onPressed: function(b) {
             if (root.isPlaying) {
@@ -47,6 +51,21 @@ BarWidget {
             } else {
                 player.play()
                 root.isPlaying = true
+            }
+        }
+
+        // Overlay a MouseArea just for capturing scroll events over the button
+        MouseArea {
+            anchors.fill: parent
+            // Let click/press events fall through to the WidgetButton below
+            acceptedButtons: Qt.NoButton 
+            
+            onWheel: function(wheel) {
+                // Determine step direction from angleDelta (positive = scroll up, negative = scroll down)
+                let delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                
+                // Adjust and clamp volume between 0.0 and 1.0
+                root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + delta))
             }
         }
     }
