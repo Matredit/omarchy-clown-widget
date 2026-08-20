@@ -9,6 +9,8 @@ BarWidget {
     moduleName: "opoii.clown"
 
     property bool isPlaying: false
+    // Volume level from 0.0 to 1.0 (e.g., 50% volume here)
+    property real volumeLevel: 0.5 
 
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
@@ -25,6 +27,8 @@ BarWidget {
         audioOutput: AudioOutput {
             // Bind to the system's current default output device
             device: mediaDevices.defaultAudioOutput
+            // This controls only this specific widget's player volume
+            volume: root.volumeLevel 
         }
     }
 
@@ -34,7 +38,7 @@ BarWidget {
         bar: root.bar
         text: "🤡"
         active: root.isPlaying
-        tooltipText: root.isPlaying ? "Stop music" : "Play music"
+        tooltipText: root.isPlaying ? "Stop music (Vol: " + Math.round(root.volumeLevel * 100) + "%)" : "Play music"
         
         onPressed: function(b) {
             if (root.isPlaying) {
