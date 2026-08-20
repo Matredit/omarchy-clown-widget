@@ -2,7 +2,9 @@
 
 Heavily inspired by the [Clown GNOME extention](https://extensions.gnome.org/extension/6544/clown/) by markocic.
 
-A dead-simple, vibecoded plugin that displays a clown emoji and plays music when clicked.
+A simple, vibecoded plugin that displays a clown emoji and plays music when clicked.  
+- Adjust the volume by scrolling over the widget.
+- Clowns stay perfectly synced across all of your monitors.
 
 Feedback is appreciated if it somehow manages to break.
 
