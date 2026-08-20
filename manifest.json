@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "opoii.clown",
   "name": "Clown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Matredit",
   "description": "Plays circus music on click",
   "kinds": ["bar-widget"],

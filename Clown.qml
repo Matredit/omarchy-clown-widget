@@ -13,11 +13,19 @@ BarWidget {
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
+    // Track system multimedia devices
+    MediaDevices {
+        id: mediaDevices
+    }
+
     MediaPlayer {
         id: player
         source: Qt.resolvedUrl("clown.ogg")
         loops: MediaPlayer.Infinite
-        audioOutput: AudioOutput {}
+        audioOutput: AudioOutput {
+            // Bind to the system's current default output device
+            device: mediaDevices.defaultAudioOutput
+        }
     }
 
     WidgetButton {
