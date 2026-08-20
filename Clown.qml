@@ -9,7 +9,6 @@ BarWidget {
     moduleName: "opoii.clown"
 
     property bool isPlaying: false
-    // Volume level from 0.0 to 1.0 (e.g., 50% volume here)
     property real volumeLevel: 0.5 
 
     implicitWidth: button.implicitWidth
@@ -61,12 +60,19 @@ BarWidget {
             acceptedButtons: Qt.NoButton 
             
             onWheel: function(wheel) {
-                // Determine step direction from angleDelta (positive = scroll up, negative = scroll down)
-                let delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+                // 5% step is too high for touchpad gesture, so
+                let yDelta = wheel.angleDelta.y
+                if (yDelta === 0) return
+
+                // Mouse wheels report chunks of 120. Touchpads report smaller continuous values.
+                let isMouseWheel = Math.abs(yDelta) >= 120
                 
-                // Adjust and clamp volume between 0.0 and 1.0
-                root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + delta))
+                // Mouse wheel moves by standard 5% steps, touchpad moves much slower (e.g., 0.5%)
+                let change = isMouseWheel ? 0.05 : 0.005
                 
+                let direction = yDelta > 0 ? 1 : -1
+                root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + (direction * change)))
+
                 // Force Omarchy's bar to update the active tooltip text dynamically on scroll
                 if (root.bar && typeof root.bar.showTooltip === "function") {
                     root.bar.showTooltip(button, button.tooltipText)
