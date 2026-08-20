@@ -2,6 +2,8 @@ import QtQuick
 import QtMultimedia
 import qs.Ui
 
+// https://gemini.google.com/app/e4a71ef5bc7fcd87
+
 BarWidget {
     id: root
     moduleName: "opoii.clown"
