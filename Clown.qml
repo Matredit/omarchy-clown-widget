@@ -41,7 +41,7 @@ BarWidget {
         
         tooltipText: {
             let volPercent = Math.round(root.volumeLevel * 100)
-            return root.isPlaying ? "Stop music (Vol: " + volPercent + "%)" : "Play music (Vol: " + volPercent + "%)"
+            return root.isPlaying ? "Stop (Vol: " + volPercent + "%)" : "Play (Vol: " + volPercent + "%)"
         }
         
         onPressed: function(b) {
@@ -66,6 +66,11 @@ BarWidget {
                 
                 // Adjust and clamp volume between 0.0 and 1.0
                 root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + delta))
+                
+                // Force Omarchy's bar to update the active tooltip text dynamically on scroll
+                if (root.bar && typeof root.bar.showTooltip === "function") {
+                    root.bar.showTooltip(button, button.tooltipText)
+                }
             }
         }
     }
