@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "opoii.clown",
+  "name": "Clown",
+  "version": "1.0.0",
+  "author": "Matredit",
+  "description": "Plays circus music on click",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "Clown.qml"
+  },
+  "barWidget": {
+    "displayName": "Clown Widget",
+    "description": "A button to toggle clown music",
+    "category": "Fun",
+    "allowMultiple": false
+  }
+}

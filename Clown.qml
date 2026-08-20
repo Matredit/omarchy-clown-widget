@@ -1,0 +1,39 @@
+import QtQuick
+import QtMultimedia
+import qs.Ui
+
+BarWidget {
+    id: root
+    moduleName: "opoii.clown"
+
+    property bool isPlaying: false
+
+    implicitWidth: button.implicitWidth
+    implicitHeight: button.implicitHeight
+
+    MediaPlayer {
+        id: player
+        source: Qt.resolvedUrl("clown.ogg")
+        loops: MediaPlayer.Infinite
+        audioOutput: AudioOutput {}
+    }
+
+    WidgetButton {
+        id: button
+        anchors.fill: parent
+        bar: root.bar
+        text: "🤡"
+        active: root.isPlaying
+        tooltipText: root.isPlaying ? "Stop music" : "Play music"
+        
+        onPressed: function(b) {
+            if (root.isPlaying) {
+                player.stop()
+                root.isPlaying = false
+            } else {
+                player.play()
+                root.isPlaying = true
+            }
+        }
+    }
+}
