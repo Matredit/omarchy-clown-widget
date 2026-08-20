@@ -53,30 +53,22 @@ BarWidget {
             }
         }
 
-        // Overlay a MouseArea just for capturing scroll events over the button
-        MouseArea {
-            anchors.fill: parent
-            // Let click/press events fall through to the WidgetButton below
-            acceptedButtons: Qt.NoButton 
+        onWheelMoved: function(delta) {
+            // 5% step is too high for touchpad gesture, so
+            if (delta === 0) return
+
+            // Mouse wheels report chunks of 120. Touchpads report smaller continuous values.
+            let isMouseWheel = Math.abs(delta) >= 120
+
+            // Mouse wheel moves by standard 5% steps, touchpad moves much slower (e.g., 0.5%)
+            let change = isMouseWheel ? 0.05 : 0.005
+            let direction = delta > 0 ? 1 : -1
             
-            onWheel: function(wheel) {
-                // 5% step is too high for touchpad gesture, so
-                let yDelta = wheel.angleDelta.y
-                if (yDelta === 0) return
+            root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + (direction * change)))
 
-                // Mouse wheels report chunks of 120. Touchpads report smaller continuous values.
-                let isMouseWheel = Math.abs(yDelta) >= 120
-                
-                // Mouse wheel moves by standard 5% steps, touchpad moves much slower (e.g., 0.5%)
-                let change = isMouseWheel ? 0.05 : 0.005
-                
-                let direction = yDelta > 0 ? 1 : -1
-                root.volumeLevel = Math.max(0.0, Math.min(1.0, root.volumeLevel + (direction * change)))
-
-                // Force Omarchy's bar to update the active tooltip text dynamically on scroll
-                if (root.bar && typeof root.bar.showTooltip === "function") {
-                    root.bar.showTooltip(button, button.tooltipText)
-                }
+            // Force Omarchy's bar to update the active tooltip text dynamically on scroll
+            if (root.bar && typeof root.bar.showTooltip === "function") {
+                root.bar.showTooltip(button, button.tooltipText)
             }
         }
     }
